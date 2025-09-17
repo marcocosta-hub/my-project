@@ -25,12 +25,16 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Copy JAR for Docker
+        run: mkdir -p docker-build && cp build/libs/*.jar docker-build/
+
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v4
         with:
           image: marcocosta995/demo-app
-          tags: latest
+          tag: latest
           registry: docker.io
+          dockerfile: Dockerfile
+          directory: docker-build   # 👈 use the docker-build folder
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-        
