@@ -27,10 +27,8 @@ jobs:
 
       - name: Prepare Docker build context
         run: |
-             mkdir -p docker-build
-             cp app/build/libs/*.jar docker-build/
-             cp Dockerfile docker-build/
-
+          mkdir -p docker-build
+          cp app/build/libs/*.jar docker-build/
 
       - name: Build and Push Docker Image
         uses: mr-smithers-excellent/docker-build-push@v4
@@ -38,7 +36,7 @@ jobs:
           image: marcocosta995/demo-app
           tag: latest
           registry: docker.io
-          dockerfile: Dockerfile
-          directory: docker-build   
+          dockerfile: ../Dockerfile       # 👈 points to root
+          directory: docker-build
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
